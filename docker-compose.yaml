@@ -1,0 +1,33 @@
+version: "3.7"
+services:
+  ipam:
+    image: phpipam/phpipam-www:1.4x
+    ports:
+      - 8070:80
+    environment:
+      - TZ=Europe/London
+      - IPAM_DATABASE_HOST=mariadb
+      - IPAM_DATABASE_USER=ipam
+      - IPAM_DATABASE_PASS=ipam
+      - IPAM_DATABASE_NAME=ipam
+    restart: unless-stopped
+    volumes:
+      - phpipam-logo:/phpipam/css/images/logo
+  mariadb:
+    image: mariadb
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ipam
+      MYSQL_DATABASE: ipam
+      MYSQL_USER: ipam
+      MYSQL_PASSWORD: ipam
+
+  adminer:
+    image: adminer:4.7
+    restart: always
+    ports:
+      - 8060:8080
+
+
+volumes:
+  phpipam-logo:
